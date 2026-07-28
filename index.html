@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>졸라맨화</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#1e1e1e;
+    color:white;
+}
+
+#loginPage,#mainPage{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    height:100vh;
+}
+
+#mainPage{
+    display:none;
+    justify-content:flex-start;
+    padding:40px;
+    height:auto;
+    min-height:100vh;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#2d89ef;
+    color:white;
+    margin:5px;
+}
+
+button:hover{
+    background:#1f6dc2;
+}
+
+input{
+    margin-top:20px;
+    padding:10px;
+    width:250px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+}
+
+#posts{
+    width:100%;
+    max-width:900px;
+    margin-top:25px;
+}
+
+.post{
+    background:#2a2a2a;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:15px;
+}
+
+.post h3{
+    margin-bottom:8px;
+}
+
+.category{
+    display:inline-block;
+    background:#2d89ef;
+    padding:3px 8px;
+    border-radius:5px;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+#categoryButtons{
+    margin-top:20px;
+}
+</style>
+</head>
+<body>
+
+<div id="loginPage">
+    <button id="loginBtn" onclick="showLogin()">로그인</button>
+
+<input
+    type="text"
+    id="idInput"
+    placeholder="ID 입력"
+    style="display:none;">
+
+<br><br>
+
+<button
+    id="confirmBtn"
+    onclick="login()"
+    style="display:none;">
+    확인
+</button>
+
+</div>
+
+<div id="mainPage">
+    <h1>신 졸라맨화</h1>
+
+    <div id="categoryButtons">
+        <button onclick="showCategory('all')">전체</button>
+        <button onclick="showCategory('A')">공지사항</button>
+        <button onclick="showCategory('신 졸라맨화')">신 졸라맨화</button>
+    </div>
+
+    <div id="posts"></div>
+</div>
+
+<script>
+const ALLOWED_ID = "2dles";
+
+// 게시글 등록
+const posts = [
+    {
+        category:"신 졸라맨화",
+        title:"1기 1화",
+        content:"중독맨네 집 쳐들어가기 ㅋㅋ",
+        image:"https://i.ibb.co/D2yn0b3/1-1.png"
+    }
+];
+
+function showLogin(){
+    document.querySelector("#loginPage button").style.display = "none"; // 로그인 버튼 숨김
+
+    const input = document.getElementById("idInput");
+    input.style.display = "block";
+
+    document.getElementById("confirmBtn").style.display = "inline-block";
+
+    input.focus();
+}
+
+function login(){
+    const id = document.getElementById("idInput").value.trim();
+
+    if(id === "2dles"){
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("mainPage").style.display = "flex";
+
+        // 게시글 출력
+        renderPosts("all");
+        console.log("로그인 성공")
+    }else{
+        alert("등록되지 않은 ID입니다. 입력한 ID를 다시 확인하거나 ID를 발급해 주세요.");
+        console.log("로그인 실패")
+    }
+}
+
+document.getElementById("idInput").addEventListener("keydown",function(e){
+    if(e.key==="Enter"){
+        login();
+    }
+});
+
+function renderPosts(category){
+    const postsDiv = document.getElementById("posts");
+    postsDiv.innerHTML = "";
+
+    posts.forEach((post, index) => {
+
+        if(category !== "all" && post.category !== category){
+            return;
+        }
+
+        postsDiv.innerHTML += `
+        <div class="post" onclick="toggleImage(${index})" style="cursor:pointer;">
+            <div class="category">${post.category}</div>
+
+            <h3>${post.title}</h3>
+
+            <p>${post.content}</p>
+
+            <img
+                id="img${index}"
+                src="${post.image}"
+                style="
+                    display:none;
+                    margin-top:10px;
+                    max-width:100%;
+                    border-radius:8px;
+                ">
+        </div>
+        `;
+    });
+}
+
+function toggleImage(index){
+    const img = document.getElementById("img" + index);
+
+    if(img.style.display === "none"){
+        img.style.display = "block";
+    }else{
+        img.style.display = "none";
+    }
+}
+
+function showCategory(category){
+    renderPosts(category);
+}
+</script>
+
+</body>
+</html>
