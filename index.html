@@ -123,7 +123,7 @@ input{
 </div>
 
 <script>
-const ALLOWED_ID = "2dles";
+const ALLOWED_ID = ["2dles","loyal"];
 
 // 게시글 등록
 const posts = [
@@ -131,7 +131,12 @@ const posts = [
         category:"신 졸라맨화",
         title:"1기 1화",
         content:"중독맨네 집 쳐들어가기 ㅋㅋ",
-        image:"https://i.ibb.co/D2yn0b3/1-1.png"
+        image:"https://i.ibb.co/D2yn0b3/1-1.png",
+
+        category:"신 졸라맨화"
+        title:"1기 2화",
+        content:"컴퓨터의 사진은 전생에 나라를 팔아먹었나요..?",
+        image:"https://i.ibb.co/VW2Lxp5H/rawing-Picture-1785303371557.png"
     }
 ];
 
@@ -150,6 +155,14 @@ function login(){
     const id = document.getElementById("idInput").value.trim();
 
     if(id === "2dles"){
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("mainPage").style.display = "flex";
+
+        // 게시글 출력
+        renderPosts("all");
+        console.log("로그인 성공")
+    }
+    if(id === "loyal"){
         document.getElementById("loginPage").style.display = "none";
         document.getElementById("mainPage").style.display = "flex";
 
